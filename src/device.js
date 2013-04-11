@@ -19,22 +19,6 @@ var device = {
      * The current device size
      */
     size : null,
-
-    /**
-     * An array of functions to call when the device size changes. #
-     *
-     * Typically items will be added here dynamically from other objects
-     *
-     * @type {Array}
-     */
-    onSizeChange : [],
-
-    /**
-     * An array of functions to call when the orientation of the device changes.
-     *
-     * Typically items will be added here dynamically from other objects
-     */
-    onOrientationChange : [],
     
     /**
      * Initialise
@@ -52,9 +36,9 @@ var device = {
      *
      * For example:
      *
-     * device.addSizeChangeEvent(function(name) {
-     *     alert(name);
-     * }, 'Your Name');
+     * device.addSizeChangeEvent(function(e) {
+     *     alert(e.data.name);
+     * }, { name: 'Your Name' });
      *
      * Will result in "Your Name" being alerted whenever the size of the current device changes classification
      *
@@ -65,15 +49,11 @@ var device = {
             return;
         }
 
-        var event = {};
-        event.func = func;
-        event.args = [];
-        $.each(Array.prototype.slice.call(arguments), function(i, arg) {
-            if(i === 0) return; //first argument is the function
-            event.args.push(arg); //add the argument to the event handler
-        });
-
-        device.onSizeChange.push(event);
+        var extraParams = Array.prototype.slice.call(arguments, 1);
+        if (typeof extraParams.length !== 'undefined' && extraParams.length === 1) {
+            extraParams = extraParams[0];
+        }
+        $(this).bind('sizeChange', extraParams, func);
     },
 
     /**
@@ -96,37 +76,25 @@ var device = {
             return;
         }
 
-        var event = {};
-        event.func = func;
-        event.args = [];
-        $.each(Array.prototype.slice.call(arguments), function(i, arg) {
-            if(i === 0) return;
-            event.args.push(arg);
-        });
-
-        device.onOrientationChange.push(event);
+        var extraParams = Array.prototype.slice.call(arguments, 1);
+        if (typeof extraParams.length !== 'undefined' && extraParams.length === 1) {
+            extraParams = extraParams[0];
+        }
+        $(this).bind('orientationChange', extraParams, func);
     },
 
     /**
      * Executes all functions currently in the onSizeChange stack
      */
     runSizeChangeEvents : function() {
-        $.each(device.onSizeChange, function(i, eventObj) {
-            if(typeof eventObj.func == 'function') {
-                eventObj.func.apply(this, eventObj.args);
-            }
-        });
+        $(this).trigger('sizeChange');
     },
 
     /**
      * Executes all functions currently in the onOrientationChange stack
      */
     runOrientationChangeEvents : function() {
-        $.each(device.onOrientationChange, function(i, eventObj) {
-            if(typeof eventObj.func == 'function') {
-                eventObj.func.apply(this, eventObj.args);
-            }
-        });
+        $(this).trigger('orientationChange');
     },
 
     /**
