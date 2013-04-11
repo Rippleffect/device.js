@@ -40,7 +40,7 @@ var device = {
      * Initialise
      */
     init : function() {
-    	device.updateSize();
+        device.updateSize();
         device.initSizeListener();
         device.initOrientationListener();
     },
@@ -152,16 +152,16 @@ var device = {
         }
         return 'landscape';
     },
-	
-	
-	/**
-	 * Gets the device width in pixels
+
+
+    /**
+     * Gets the device width in pixels
      *
      * @return {Number}
-	 */
-	 getWidth : function() {
-		 return $(window).width();
-	 },
+     */
+     getWidth : function() {
+         return $(window).width();
+     },
 
     /**
      * Gets the device height in pixels
@@ -203,8 +203,8 @@ var device = {
                 newSize = 'large';
         }
 
-		var fire = newSize != device.size;
-		device.size = newSize;
+        var fire = newSize != device.size;
+        device.size = newSize;
         if(fire) {
             device.runSizeChangeEvents();
         }
