@@ -57,4 +57,4 @@ You can add orientation change events as follows
     }, true);
 
 The second parameter to the `device.addOrientationChangeEvent` tells device.js to run the event listener immediately after adding
-it to the listener stack. If this is false then it will only be called when the size eventually changes.
+it to the listener stack. If this is false then it will only be called when the orientation eventually changes.
