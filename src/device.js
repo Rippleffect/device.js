@@ -220,7 +220,7 @@ var Device = function (options) {
         /**
          * Updates the device size by detecting screen width.
          *
-         * If the screen size has changed, then this method also runs all onSizeChange[] events in this object
+         * If the screen size has changed, then this method also fires all size change listeners
          */
         updateSize: function () {
             var newSize;
