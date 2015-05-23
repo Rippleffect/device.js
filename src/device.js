@@ -13,7 +13,14 @@
  *
  * @type {Object}
  */
-var Device = function () {
+var Device = function (options) {
+
+    options = $.extend({}, {
+        mq: {
+            "small": "only all and (max-width: 599px)",
+            "medium": "only all and (min-width: 600px) and (max-width: 960px)",
+        }
+    }, options);
 
     /**
      * The current device size
@@ -62,14 +69,20 @@ var Device = function () {
          *     alert(name);
          * }, 'Your Name');
          *
-         * Will result in "Your Name" being alerted whenever the size of the current device changes classification
+         * Will result in "Your Name" being alerted whenever the size of the current device changes classification.
          *
-         * @param {function} func The function to add to the onSizeChange stack
+         * Sometimes when adding a size change event handler you actually want that handler to fire immediately. If this
+         * is the case then you can pass boolean true as the second argument to this function.
+         *
+         * @param {function} func     The function to add to the onSizeChange stack
+         * @param {Boolean}  autoCall If true the function will be called immediately after adding to the listeners stack
          */
-        addSizeChangeEvent: function (func) {
+        addSizeChangeEvent: function (func, autoCall) {
             if (!typeof func == 'function') {
                 return;
             }
+
+            autoCall = autoCall || false;
 
             var event = {};
             event.func = func;
@@ -78,6 +91,10 @@ var Device = function () {
                 if (i === 0) return; //first argument is the function
                 event.args.push(arg); //add the argument to the event handler
             });
+
+            if (autoCall === true) {
+                event.func.apply(this, event.args);
+            }
 
             sizeChangeListeners.push(event);
         },
@@ -95,12 +112,18 @@ var Device = function () {
          *
          * Will result in "Your Name" being alerted whenever the orientation of the current device changes
          *
-         * @param {function} func The function to add to the onOrientationChange stack
+         * Sometimes when adding an orientation change event handler you actually want that handler to fire immediately.
+         * If this is the case then you can pass boolean true as the second argument to this function.
+         *
+         * @param {function} func     The function to add to the onOrientationChange stack
+         * @param {Boolean}  autoCall If true the function will be called immediately after adding to the listeners stack
          */
-        addOrientationChangeEvent: function (func) {
+        addOrientationChangeEvent: function (func, autoCall) {
             if (!typeof func == 'function') {
                 return;
             }
+
+            autoCall = autoCall || false;
 
             var event = {};
             event.func = func;
@@ -110,6 +133,10 @@ var Device = function () {
                 event.args.push(arg);
             });
 
+            if (autoCall === true) {
+                event.func.apply(this, event.args);
+            }
+
             orientationChangeListeners.push(event);
         },
 
@@ -118,7 +145,6 @@ var Device = function () {
          */
         runSizeChangeEvents: function () {
             $.each(sizeChangeListeners, function (i, eventObj) {
-                console.log(eventObj);
                 if (typeof eventObj.func == 'function') {
                     eventObj.func.apply(this, eventObj.args);
                 }
@@ -200,10 +226,10 @@ var Device = function () {
             var newSize;
 
             switch (true) {
-                case (Modernizr.mq('only all and (max-width: 599px)')):
+                case (Modernizr.mq(options.mq.small)):
                     newSize = 'small';
                     break;
-                case (Modernizr.mq('only all and (min-width: 600px) and (max-width: 960px)')):
+                case (Modernizr.mq(options.mq.medium)):
                     newSize = 'medium';
                     break;
                 default:
