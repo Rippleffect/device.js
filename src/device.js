@@ -59,7 +59,7 @@ var Device = function (options) {
         },
 
         /**
-         * Method that adds a function to the onSizeChange stack so that it is called when the device size changes.
+         * Method that adds a function to the size change stack so that it is called when the device size changes.
          *
          * Any succeeding parameters after 'autoCall' will be used as arguments to call 'func'
          *
@@ -67,14 +67,14 @@ var Device = function (options) {
          *
          * Device.addSizeChangeEvent(function(name) {
          *     alert(name);
-         * }, 'Your Name');
+         * }, false, 'Your Name');
          *
          * Will result in "Your Name" being alerted whenever the size of the current device changes classification.
          *
          * Sometimes when adding a size change event handler you actually want that handler to fire immediately. If this
          * is the case then you can pass boolean true as the second argument to this function.
          *
-         * @param {function} func     The function to add to the onSizeChange stack
+         * @param {function} func     The function to add to the size change stack
          * @param {Boolean}  autoCall If true the function will be called immediately after adding to the listeners stack
          */
         addSizeChangeEvent: function (func, autoCall) {
@@ -100,7 +100,7 @@ var Device = function (options) {
         },
 
         /**
-         * Method that adds a function to the onOrientationChange stack so that it is called when the orientation changes.
+         * Method that adds a function to the orientation change stack so that it is called when the orientation changes.
          *
          * Any succeeding parameters after 'autoCall' will be used as arguments to call 'func'
          *
@@ -108,14 +108,14 @@ var Device = function (options) {
          *
          * Device.addOrientationChangeEvent(function(name) {
          *     alert(name);
-         * }, 'Your Name');
+         * }, false, 'Your Name');
          *
          * Will result in "Your Name" being alerted whenever the orientation of the current device changes
          *
          * Sometimes when adding an orientation change event handler you actually want that handler to fire immediately.
          * If this is the case then you can pass boolean true as the second argument to this function.
          *
-         * @param {function} func     The function to add to the onOrientationChange stack
+         * @param {function} func     The function to add to the orientation change stack
          * @param {Boolean}  autoCall If true the function will be called immediately after adding to the listeners stack
          */
         addOrientationChangeEvent: function (func, autoCall) {
