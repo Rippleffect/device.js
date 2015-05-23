@@ -61,7 +61,7 @@ var Device = function (options) {
         /**
          * Method that adds a function to the onSizeChange stack so that it is called when the device size changes.
          *
-         * Any succeeding parameters after 'func' will be used as arguments to call 'func'
+         * Any succeeding parameters after 'autoCall' will be used as arguments to call 'func'
          *
          * For example:
          *
@@ -88,8 +88,8 @@ var Device = function (options) {
             event.func = func;
             event.args = [];
             $.each(Array.prototype.slice.call(arguments), function (i, arg) {
-                if (i === 0) return; //first argument is the function
-                event.args.push(arg); //add the argument to the event handler
+                if (i < 2) return;
+                event.args.push(arg);
             });
 
             if (autoCall === true) {
@@ -102,7 +102,7 @@ var Device = function (options) {
         /**
          * Method that adds a function to the onOrientationChange stack so that it is called when the orientation changes.
          *
-         * Any succeeding parameters after 'func' will be used as arguments to call 'func'
+         * Any succeeding parameters after 'autoCall' will be used as arguments to call 'func'
          *
          * For example:
          *
@@ -129,7 +129,7 @@ var Device = function (options) {
             event.func = func;
             event.args = [];
             $.each(Array.prototype.slice.call(arguments), function (i, arg) {
-                if (i === 0) return;
+                if (i < 2) return;
                 event.args.push(arg);
             });
 
