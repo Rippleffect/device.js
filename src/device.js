@@ -200,7 +200,7 @@ var Device = function (options) {
         /**
          * Gets the device height in pixels
          *
-         * @return {*|jQuery}
+         * @return {Number}
          */
         getHeight: function () {
             return $(window).height();
