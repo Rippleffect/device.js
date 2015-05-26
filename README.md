@@ -58,3 +58,16 @@ You can add orientation change events as follows
 
 The second parameter to the `device.addOrientationChangeEvent` tells device.js to run the event listener immediately after adding
 it to the listener stack. If this is false then it will only be called when the orientation eventually changes.
+
+## Example
+
+You can set up the example to see device.js in action by doing the following:
+
+1. `git clone git@github.com:Rippleffect/device.js.git`
+2. `cd device.js`
+3. `bower install`
+4. Access the files via your web browser
+
+The example uses a simple demonstration of updating the page to display the current device size classification (using a
+custom set of media query rules) and the current orientation of the device too (which will be landscape mostly, unless
+viewing from a mobile device).
