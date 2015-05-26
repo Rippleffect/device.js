@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Rippleffect device.js example</title>
+        <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="/bower_components/modernizr/modernizr.js"></script>
+        <script src="/src/device.js"></script>
+    </head>
+    <body>
+        <header>
+            <h1>Rippleffect device.js example</h1>
+        </header>
+
+        <main>
+            <p>Current size of this device is: <span id="current-size">unknown</span></p>
+            <p>Current orientation of this device is: <span id="current-orientation">unknown</span></p>
+        </main>
+
+        <script>
+            var device = new Device({
+                mq: {
+                    "small": "only all and (max-width: 499px)",
+                    "medium": "only all and (min-width: 500px) and (max-width: 960px)",
+                    "large": "only all and (min-width: 961px) and (max-width: 1200px)",
+                    "extra-large": "only all and (min-width: 1201px)"
+                }
+            });
+
+            device.addSizeChangeEvent(function() {
+                $('#current-size').text(device.getSize());
+            }, true);
+
+            device.addOrientationChangeEvent(function() {
+                $('#current-orientation').text(device.getOrientation());
+            }, true);
+
+        </script>
+    </body>
+</html>
