@@ -19,6 +19,7 @@ var Device = function (options) {
         mq: {
             "small": "only all and (max-width: 599px)",
             "medium": "only all and (min-width: 600px) and (max-width: 960px)",
+            "large": "only all and (min-width: 961px)"
         }
     }, options);
 
@@ -220,21 +221,23 @@ var Device = function (options) {
         /**
          * Updates the device size by detecting screen width.
          *
-         * If the screen size has changed, then this method also fires all size change listeners
+         * If the screen size has changed, then this method also fires all size change listeners.
+         *
+         * It uses the media queries passed into the Device constructor (as options.mq) and will
+         * set the size to null if no media query matches the size of the screen. This is why it
+         * is important to have a "catch all" media query rule for devices over a certain width
+         * so that the size is never classified as null.
          */
         updateSize: function () {
-            var newSize;
+            var newSize = null;
 
-            switch (true) {
-                case (Modernizr.mq(options.mq.small)):
-                    newSize = 'small';
-                    break;
-                case (Modernizr.mq(options.mq.medium)):
-                    newSize = 'medium';
-                    break;
-                default:
-                    newSize = 'large';
-            }
+            $.each(options.mq, function (name, rule) {
+                if (Modernizr.mq(rule)) {
+                    newSize = name;
+
+                    return false;
+                }
+            });
 
             var fire = newSize != size;
             size = newSize;
